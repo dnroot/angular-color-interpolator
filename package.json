@@ -1,0 +1,24 @@
+{
+  "name": "angular-color-interpolator",
+  "version": "0.0.1",
+  "description": "Angular provider for color interpolation.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dnroot/angular-color-interpolator.git"
+  },
+  "keywords": [
+    "angular",
+    "color",
+    "interpolation"
+  ],
+  "author": "Dan Root <dan.n.root@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dnroot/angular-color-interpolator/issues"
+  },
+  "homepage": "https://github.com/dnroot/angular-color-interpolator"
+}
