@@ -1,7 +1,7 @@
 /*
  * angular-color-interpolator
  * https://github.com/dnroot/angular-color-interpolator
- * @version 0.0.2 <2015-07-24>
+ * @version 0.0.3 <2015-07-25>
  * @author Dan Root
  * @license MIT
  */
@@ -38,37 +38,80 @@
           };
         }
       };
-      this.blend = function(c1, c2, percentage) {
-        var b, factor, g, r, rgb1, rgb2;
-        factor = percentage < 0 ? -percentage : percentage;
+
+      /*
+       * Blends two colors together
+       * @example
+       * $colorInterpolator.blend('#a1c311', '#ec8d1c', 0.8)
+       * @param c1 {string} HEX or RGB color
+       * @param c2 {string} HEX or RGB color
+       * @param factor {number} (optional) the weight which to blend the two colors together (between 0-1)
+       */
+      this.blend = function(c1, c2, factor) {
+        var b, g, r, rgb1, rgb2;
+        if (factor == null) {
+          factor = 0.5;
+        }
+        if (!!isNaN(parseFloat(factor))) {
+          throw "Invalid factor " + factor + " - must be a numeric value";
+        }
+        if (!(c1.match(RGB_REGEX) || c1.match(HEX_REGEX))) {
+          throw "Invalid color: " + c1 + " - must be hex or rgb format";
+        }
+        if (!(c2.match(RGB_REGEX) || c2.match(HEX_REGEX))) {
+          throw "Invalid color: " + c2 + " - must be hex or rgb format";
+        }
+        if (factor < 0) {
+          factor = -factor;
+        }
         rgb1 = splitRGB(c1);
         rgb2 = splitRGB(c2);
         if (!(rgb1 && rgb2)) {
           return;
         }
-        if (c1.match(RGB_REGEX)) {
+        if (c1.match(RGB_REGEX) && c2.match(RGB_REGEX)) {
           r = Math.round((rgb2.r - rgb1.r) * factor) + rgb1.r;
           g = Math.round((rgb2.g - rgb1.g) * factor) + rgb1.g;
           b = Math.round((rgb2.b - rgb1.b) * factor) + rgb1.b;
           return "rgb(" + r + ", " + g + ", " + b + ")";
-        } else {
+        } else if (c1.match(HEX_REGEX) && c2.match(HEX_REGEX)) {
           r = 0x1000000 + 0x10000 * (Math.round((rgb2.r - rgb1.r) * factor) + rgb1.r);
           g = 0x100 * (Math.round((rgb2.g - rgb1.g) * factor) + rgb1.g);
           b = Math.round((rgb2.b - rgb1.b) * factor) + rgb1.b;
           return "#" + ((r + g + b).toString(16).slice(1));
+        } else {
+          throw "Color format mismatch - " + c1 + " and " + c2 + " are different formats";
         }
       };
+
+      /*
+       * Lighten a color by a given factor
+       * @example
+       * $colorInterpolator.lighten("#ececec", 0.5)
+       * @param color {string} HEX or RGB color
+       * @param factor {number} weight to lighten the color (between 0-1)
+       */
       this.lighten = function(color, factor) {
         var blendedColor;
         if (color.match(RGB_REGEX)) {
           blendedColor = factor < 0 ? 'rgb(0,0,0)' : 'rgb(255,255,255)';
         } else if (color.match(HEX_REGEX)) {
           blendedColor = factor < 0 ? '#000000' : '#ffffff';
+        } else {
+          throw "Invalid color: " + color + "\nMust be hex or rgb format";
         }
         if (blendedColor) {
           return this.blend(color, blendedColor, factor);
         }
       };
+
+      /*
+       * Darken a color by a given factor
+       * @example
+       * $colorInterpolator.darken("#ececec", 0.5)
+       * @param color {string} HEX or RGB color
+       * @param factor {number} weight to lighten the color (between 0-1)
+       */
       this.darken = function(color, factor) {
         return this.lighten(color, -factor);
       };
