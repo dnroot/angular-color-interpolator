@@ -1,7 +1,6 @@
-###
-angular provider for interpolating colors, based on
-http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
-###
+# Original inspiration (and much of the source) came from:
+# http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+
 ((window, angular) ->
 
   HEX_REGEX = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
