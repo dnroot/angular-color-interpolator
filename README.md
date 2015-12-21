@@ -30,6 +30,22 @@ generateTheme = function(base) {
 }
 ```
 
+## Installation
+
+Install with the cli
+
+    bower install angular-color-interpolator
+      -- or --
+    npm install angular-color-interpolator
+
+Import in the html
+    
+    <script src="/bower_components/angular-color-interpolator/release/angular-color-interpolator.min.js"></script>
+
+Add as a module of your Angular.JS app
+
+    angular.module('my.app', ['ngColorInterpolator']);
+
 ## Usage
 * `lighten(color, factor)` - color being a hex or rgb color, factory being 0.1 for 10%, 0.2 for 20%, and so on. Will lighten the color by that factor.
 * `darken(color, factor)` - inverse of lighten
