@@ -23,12 +23,31 @@ module.exports = (grunt) ->
       compile:
         files:
           'release/<%= pkg.name %>.js': 'src/<%= pkg.name %>.coffee'
+    coffeelint:
+      app: ['src/*.coffee']
     uglify:
       build:
         src: 'release/<%= pkg.name %>.js'
         dest: 'release/<%= pkg.name %>.min.js'
+    karma:
+      unit:
+        options:
+          frameworks: ['jasmine']
+          singleRun: true
+          browsers: ['PhantomJS']
+          files: [
+            'bower_components/angular/angular.js'
+            'bower_components/angular-mocks/angular-mocks.js'
+            'release/angular-color-interpolator.js'
+            'spec/helper.js'
+            'spec/data.js'
+            'spec/**/*.js'
+          ]
 
+  grunt.loadNpmTasks('grunt-coffeelint')
   grunt.loadNpmTasks('grunt-banner')
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-contrib-uglify')
-  grunt.registerTask('default', ['coffee', 'uglify', 'usebanner'])
+  grunt.loadNpmTasks('grunt-karma')
+  grunt.registerTask('default', ['coffeelint', 'coffee', 'uglify', 'usebanner', 'karma'])
+  grunt.registerTask('test', ['coffeelint', 'coffee', 'karma'])

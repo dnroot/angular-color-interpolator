@@ -1,5 +1,6 @@
 # Original inspiration (and much of the source) came from:
 # http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
+# coffeelint: disable=max_line_length
 
 ((window, angular) ->
 
@@ -32,11 +33,12 @@
        * @param factor {number} (optional) the weight which to blend the two colors together (between 0-1)
       ###
       @blend = (c1, c2, factor=0.5) ->
-        throw "Invalid factor #{factor} - must be a numeric value" unless !isNaN(parseFloat(factor))
-        throw "Invalid color: #{c1} - must be hex or rgb format" unless c1.match(RGB_REGEX) || c1.match(HEX_REGEX)
-        throw "Invalid color: #{c2} - must be hex or rgb format" unless c2.match(RGB_REGEX) || c2.match(HEX_REGEX)
+        throw new Error("Invalid factor #{factor} - must be a numeric value") if isNaN(parseFloat(factor))
+        throw new Error("Invalid color: #{c1} - must be hex or rgb format") unless c1.match(RGB_REGEX) || c1.match(HEX_REGEX)
+        throw new Error("Invalid color: #{c2} - must be hex or rgb format") unless c2.match(RGB_REGEX) || c2.match(HEX_REGEX)
 
         factor = -factor if factor < 0
+        factor = 1 if factor > 1
         rgb1 = splitRGB(c1)
         rgb2 = splitRGB(c2)
 
@@ -53,7 +55,7 @@
           b = Math.round((rgb2.b - rgb1.b) * factor) + rgb1.b
           "##{(r + g + b).toString(16).slice(1)}"
         else
-          throw "Color format mismatch - #{c1} and #{c2} are different formats"
+          throw new Error("Color format mismatch - #{c1} and #{c2} are different formats")
 
       ###
        * Lighten a color by a given factor
@@ -63,12 +65,16 @@
        * @param factor {number} weight to lighten the color (between 0-1)
       ###
       @lighten = (color, factor) ->
+        throw new Error("Invalid factor #{factor} - must be a numeric value") if isNaN(parseFloat(factor))
+
+        factor = parseFloat(factor)
+
         if color.match(RGB_REGEX)
           blendedColor = if factor < 0 then 'rgb(0,0,0)' else 'rgb(255,255,255)'
         else if color.match(HEX_REGEX)
           blendedColor = if factor < 0 then '#000000' else '#ffffff'
         else
-          throw "Invalid color: #{color}\nMust be hex or rgb format"
+          throw new Error("Invalid color: #{color} - must be hex or rgb format")
 
         @blend(color, blendedColor, factor) if blendedColor
 
@@ -79,7 +85,9 @@
        * @param color {string} HEX or RGB color
        * @param factor {number} weight to lighten the color (between 0-1)
       ###
-      @darken = (color, factor) -> @lighten(color, -factor)
+      @darken = (color, factor) ->
+        throw new Error("Invalid factor #{factor} - must be a numeric value") if isNaN(parseFloat(factor))
+        @lighten(color, -parseFloat(factor))
 
       @$get = -> @
 

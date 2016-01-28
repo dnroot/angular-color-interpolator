@@ -1,6 +1,6 @@
 {
   "name": "angular-color-interpolator",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "homepage": "https://github.com/dnroot/angular-color-interpolator",
   "authors": [
     "Dan Root <dan.n.root@gmail.com>"
@@ -20,8 +20,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "test",
-    "tests"
+    "spec"
   ],
   "dependencies": {
     "angular": ">=1.3 <1.5"
