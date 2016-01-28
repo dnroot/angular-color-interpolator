@@ -1,3 +1,10 @@
+/*
+ * angular-color-interpolator
+ * https://github.com/dnroot/angular-color-interpolator
+ * @version 1.0.0 <2016-01-27>
+ * @author Dan Root
+ * @license MIT
+ */
 (function() {
   (function(window, angular) {
     var HEX_REGEX, RGB_REGEX;

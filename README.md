@@ -1,3 +1,5 @@
+![Circle CI](https://circleci.com/gh/dnroot/angular-color-interpolator.svg?style=shield&circle-token=1561853c0eb2a4c2e30d16102cb3f51f5d303a35)
+
 # angular-color-interpolator
 Angular provider for color interpolation.
 
@@ -39,7 +41,7 @@ Install with the cli
     npm install angular-color-interpolator
 
 Import in the html
-    
+
     <script src="/bower_components/angular-color-interpolator/release/angular-color-interpolator.min.js"></script>
 
 Add as a module of your Angular.JS app
